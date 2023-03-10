@@ -1,0 +1,43 @@
+{% extends "layout.html" %} {% block body%} {% load static %}
+
+<link rel="stylesheet" href="{% static 'style.css' %}" />
+
+<div class="container">
+  <form action="" method="POST">
+    <h1 style="margin-top: 20px; margin-bottom: 20px;">Opret ny turnering</h1>
+    {% csrf_token %}
+    <p>{{form.name}}</p>
+    <p>{{form.how_many}}</p>
+    <p>{{form.place_id}}</p>
+    <p>{{form.gender}}</p>
+    <p>{{form.PricePool}}</p>
+    <p>{{form.Dec}}</p>
+
+    <input class="btn btn-primary" type="submit" value="Save" />
+  </form>
+
+
+
+<div style="margin-top:40px" class="row">
+  <div class="col">
+    <div class="table">
+      <h1>Tournements</h1>
+      
+    <ul>
+      {% for item in tours %}
+
+      <li>
+        ID: {{item.ID}} {{item.name}} Max players: {{item.how_many}} Køn:
+        {{item.gender}} Vært: {{item.Place.name}}
+      </li>
+
+      {% endfor %}
+    </ul>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+
+{% endblock %}

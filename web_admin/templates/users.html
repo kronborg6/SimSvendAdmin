@@ -1,0 +1,83 @@
+{% extends "layout.html" %} {% block body%} {% load static %}
+
+<link rel="stylesheet" href="{% static 'style.css' %}" />
+<script src="{% static 'users.js' %}"></script>
+
+<div class="container">
+  <div style="margin-bottom: 40px" class="row">
+    <div class="col">
+      <form action="" method="POST">
+        <h1>Stats</h1>
+        {% csrf_token %}
+
+        <div class="fields">
+          <select name="user_id">
+            <option value="" disabled selected>User ID</option>
+            {% for item in users %}
+
+            <option value="{{ item.ID }}">
+              {{item.ID}} {{ item.userInfo.first_name }}
+              {{item.userInfo.last_name}}
+            </option>
+
+            {% endfor %}
+          </select>
+          <p>{{form.elo}}</p>
+          <p>{{form.points}}</p>
+          <p>{{form.wins}}</p>
+          <p>{{form.losses}}</p>
+        </div>
+
+        <input class="btn btn-primary form_button" type="submit" value="Save" />
+      </form>
+    </div>
+
+    <div class="col">
+      <form action="edit_role" method="POST">
+        <div>
+          <h1>Rolle</h1>
+          {% csrf_token %}
+
+          <select name="user_id">
+            <option value="" disabled selected>User ID</option>
+            {% for item in users %}
+
+            <option value="{{ item.ID }}">
+              {{item.ID}} {{ item.userInfo.first_name }}
+              {{item.userInfo.last_name}}
+            </option>
+
+            {% endfor %}
+          </select>
+          <select name="role_id">
+            <option value="1">Almindelig</option>
+            <option value="2">Admin</option>
+          </select>
+        </div>
+        <input class="btn btn-primary form_button" type="submit" value="Save" />
+      </form>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="table">
+        <h1>Users</h1>
+        <ul>
+          {% for item in users %}
+
+          <li>
+            ID: {{item.userInfo.ID}} {{item.userInfo.first_name}}
+            {{item.userInfo.last_name}} Elo: {{item.UserStats.elo}} Points:
+            {{item.UserStats.points}} Wins: {{item.UserStats.Wins}} Losses:
+            {{item.UserStats.losses}}
+          </li>
+
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "layout.html" %} {% block body %} {% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}" />
+
+{% if message %}
+<div>{{ message }}</div>
+{% endif %}
+
+<form id="login" action="{% url 'login' %}" method="post">
+  {% csrf_token %}
+  <h2>Login</h2>
+  <div class="form-group">
+    <input
+      autofocus
+      class="form-control"
+      type="text"
+      name="email_test"
+      placeholder="Email"
+    />
+  </div>
+  <div class="form-group">
+    <input
+      class="form-control"
+      type="password"
+      name="password"
+      placeholder="Password"
+    />
+  </div>
+  <input
+    style="min-width="
+    class="btn btn-primary"
+    type="submit"
+    value="Login"
+  />
+</form>
+
+{% endblock %}
