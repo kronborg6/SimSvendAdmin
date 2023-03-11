@@ -93,7 +93,8 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 ALLOWED_HOSTS = [
 'https://www.kronborgapi.com',
-'https://simsvendapi-production.up.railway.app/'
+'https://simsvendapi-production.up.railway.app/',
+'simsvendadmin-production-55cb.up.railway.app'
 
 ]
 CORS_ORIGIN_WHITELIST = [
