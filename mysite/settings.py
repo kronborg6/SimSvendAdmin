@@ -89,7 +89,9 @@ DATABASES = {
 
 CSRF_TRUSTED_ORIGINS = [
 'https://www.kronborgapi.com',
-'https://simsvendapi-production.up.railway.app/'
+'https://simsvendapi-production.up.railway.app/',
+'simsvendadmin-production-55cb.up.railway.app'
+
 ]
 ALLOWED_HOSTS = [
 'https://www.kronborgapi.com',
@@ -99,7 +101,9 @@ ALLOWED_HOSTS = [
 ]
 CORS_ORIGIN_WHITELIST = [
 'https://www.kronborgapi.com',
-'https://simsvendapi-production.up.railway.app/'
+'https://simsvendapi-production.up.railway.app/',
+'simsvendadmin-production-55cb.up.railway.app'
+
 
 ]
 CORS_ORIGIN_ALLOW_ALL = True
