@@ -1,0 +1,74 @@
+
+
+.table{
+    border-radius: 15px;
+    font-size: 20px;
+    text-align: center;
+    background-color: rgb(207, 207, 207);
+    padding: 15px;
+   
+}
+
+
+input{
+    text-align: center;
+}
+
+ul{
+    list-style-type: none;
+}
+
+
+
+form{
+    padding: 25px;
+    background-color: rgb(207, 207, 207);
+    border-radius: 15px;
+    height: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding: 100px;
+    justify-content: space-between;
+}
+
+form select {    
+    margin-bottom: 16px;
+    min-height: 28px;
+    min-width: 186px;
+
+}
+
+form option {
+    text-align: center;
+    
+}
+
+
+.container{
+    
+    padding-top: 40px;
+    padding-bottom: 20px;
+}
+
+
+
+.btn{
+    
+    margin: 0 auto;
+    min-width: 186px;
+}
+
+#login{
+    max-height: 50%;
+    max-width: 50%;
+    margin: auto;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#login input{    
+    width: 250px;
+    margin: auto;
+   
+}
