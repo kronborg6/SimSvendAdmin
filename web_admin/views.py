@@ -310,8 +310,17 @@ def login(request):
         bmail = "mkronborg7@gmail.com"
         bpass = "Test"
 
-        myobj = {'email': bmail, "password": "Test"}
+        myobj = {'email': email, "password": password}
         x = requests.post(url + "auth/adminlogin", json=myobj)
+        # print(requests.status_code)
+        # if not x.status_code:
+            # return HttpResponseRedirect(reverse("login"))
+        print("*****************")
+        print(x.status_code)
+        print("*****************")
+        if not x.status_code == 200:
+            return HttpResponseRedirect(reverse("login"))
+
         json_response = x.json()
 
         token = json_response["token"]
