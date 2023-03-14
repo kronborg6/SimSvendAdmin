@@ -1,43 +1,75 @@
 {% extends "layout.html" %} {% block body%} {% load static %}
 
 <link rel="stylesheet" href="{% static 'style.css' %}" />
+<script src="{% static 'users.js' %}"></script>
 
 <div class="container">
-  <form action="" method="POST">
-    <h1 style="margin-top: 20px; margin-bottom: 20px;">Opret ny turnering</h1>
-    {% csrf_token %}
-    <p>{{form.name}}</p>
-    <p>{{form.how_many}}</p>
-    <p>{{form.place_id}}</p>
-    <p>{{form.gender}}</p>
-    <p>{{form.PricePool}}</p>
-    <p>{{form.Dec}}</p>
+  <div style="margin-bottom: 40px" class="row">
+    <div class="col">
+      <form action="" method="POST">
+        <h1 style="margin-top: 20px; margin-bottom: 20px">
+          Opret ny turnering
+        </h1>
+        {% csrf_token %}
+        <p>{{form.name}}</p>
+        <p>{{form.how_many}}</p>
+        <p>{{form.place_id}}</p>
+        <p>{{form.gender}}</p>
+        <p>{{form.elo}}</p>
+        <p>{{form.PricePool}}</p>
+        <p>{{form.Dec}}</p>
 
-    <input class="btn btn-primary" type="submit" value="Save" />
-  </form>
+        <input class="btn btn-primary" type="submit" value="Save" />
+      </form>
+    </div>
 
+    <div class="col">
+      <form action="edit_tour" method="POST">
+        <div>
+          <h1 style="margin-top: 20px; margin-bottom: 20px">
+            Rediger turnering
+          </h1>
+          {% csrf_token %}
+          <select name="id">
+            <option value="" disabled selected>User ID</option>
+            {% for item in tours %}
 
+            <option value="{{ item.ID }}">{{item.ID}} {{ item.name }}</option>
 
-<div style="margin-top:40px" class="row">
-  <div class="col">
-    <div class="table">
-      <h1>Tournements</h1>
-      
-    <ul>
-      {% for item in tours %}
+            {% endfor %}
+          </select>
 
-      <li>
-        ID: {{item.ID}} {{item.name}} Max players: {{item.how_many}} Køn:
-        {{item.gender}} Vært: {{item.Place.name}}
-      </li>
+          <p>{{edit_form.name}}</p>
+          <p>{{edit_form.how_many}}</p>
+          <p>{{edit_form.place_id}}</p>
+          <p>{{edit_form.gender}}</p>
+          <p>{{edit_form.elo}}</p>
+          <p>{{edit_form.PricePool}}</p>
+          <p>{{edit_form.Dec}}</p>
 
-      {% endfor %}
-    </ul>
+          <input class="btn btn-primary" type="submit" value="Save" />
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="table">
+        <h1>Turneringer</h1>
+        <ul>
+          {% for item in tours %}
+
+          <li>
+            ID: {{item.ID}} {{item.name}} Max players: {{item.how_many}} Køn:
+            {{item.gender}} Vært: {{item.Place.name}} Min-elo: {{item.elo}}
+          </li>
+
+          {% endfor %}
+        </ul>
+      </div>
     </div>
   </div>
 </div>
-</div>
-</div>
-
 
 {% endblock %}

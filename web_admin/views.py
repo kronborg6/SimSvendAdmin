@@ -31,6 +31,25 @@ class UserEditForm(forms.Form):
         attrs={'placeholder': 'Losses'}))
 
 
+class TourEditForm(forms.Form):
+    id = forms.IntegerField(label="ID", required=True, widget=forms.TextInput(
+        attrs={'placeholder': 'ID'}))
+    name = forms.CharField(label="Navn", required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Navn'}))
+    how_many = forms.IntegerField(label="How_many", required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'How_many'}))
+    place_id = forms.IntegerField(label="Place_ID", required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Place ID'}))
+    gender = forms.CharField(label="Køn", required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Køn'}))
+    elo = forms.IntegerField(label="Elo", required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Elo'}))
+    PricePool = forms.IntegerField(label="PricePool", required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Price pool'}))
+    Dec = forms.CharField(label="Description", required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Beskrivelser'}))
+
+
 class TourForm(forms.Form):
     name = forms.CharField(label="Navn", required=True, widget=forms.TextInput(
         attrs={'placeholder': 'Navn'}))
@@ -40,6 +59,8 @@ class TourForm(forms.Form):
         attrs={'placeholder': 'Place ID'}))
     gender = forms.CharField(label="Køn", required=True, widget=forms.TextInput(
         attrs={'placeholder': 'Køn'}))
+    elo = forms.IntegerField(label="Elo", required=True, widget=forms.TextInput(
+        attrs={'placeholder': 'Elo'}))
     PricePool = forms.IntegerField(label="PricePool", required=True, widget=forms.TextInput(
         attrs={'placeholder': 'Price pool'}))
     Dec = forms.CharField(label="Description", required=True, widget=forms.TextInput(
@@ -64,6 +85,7 @@ def index(request):
 def edit_role(request):
 
     roleForm = RoleEditForm(request.POST)
+
     if roleForm.is_valid():
 
         token = request.session.get("token")
@@ -86,7 +108,64 @@ def edit_role(request):
         return HttpResponseRedirect(reverse("users"))
 
 
+def edit_tour(request):
+
+    tourEditForm = TourEditForm(request.POST)
+
+    print(tourEditForm)
+
+    url = "https://kronborgapi.com/admin/tour/update"
+
+    if tourEditForm.is_valid():
+
+        token = request.session.get("token")
+
+        id = tourEditForm.cleaned_data["id"]
+        name = tourEditForm.cleaned_data["name"]
+        how_many = tourEditForm.cleaned_data["how_many"]
+        place_id = tourEditForm.cleaned_data["place_id"]
+        elo = tourEditForm.cleaned_data["elo"]
+        gender = tourEditForm.cleaned_data["gender"]
+        PricePool = tourEditForm.cleaned_data["PricePool"]
+        Dec = tourEditForm.cleaned_data["Dec"]
+
+        obj = {
+            "ID": id,
+            "name": name,
+            "how_many": how_many,
+            "place_id": place_id,
+            "elo": elo,
+            "gender": gender,
+            "Tour": {
+                "price_pool": PricePool,
+                "dec": Dec,
+                "tournament_id": id,
+            },
+        }
+
+        headers = {"Authorization": "Bearer " + token}
+
+        response = requests.post(url, json=obj, headers=headers)
+
+        response.raise_for_status()
+        return HttpResponseRedirect(reverse("tournements"))
+
+
 def users(request):
+
+    tourForm = TourForm(request.POST)
+    if tourForm.is_valid():
+
+        token = request.session.get("token")
+
+        headers = {"Authorization": "Bearer " + token}
+
+        name = form.cleaned_data["name"]
+        how_many = form.cleaned_data["how_many"]
+        place_id = form.cleaned_data["place_id"]
+        gender = form.cleaned_data["gender"]
+        PricePool = form.cleaned_data["PricePool"]
+        Dec = form.cleaned_data["Dec"]
 
     users_url = "https://simsvendapi-production.up.railway.app/admin/stats/"
 
@@ -158,24 +237,19 @@ def tournements(request):
 
     if request.session.get('token'):
 
-        tournements_url = "https://simsvendapi-production.up.railway.app/tour"
+        tournements_url = "https://simsvendapi-production.up.railway.app/admin/tour/all"
 
         token = request.session.get("token")
 
         headers = {"Authorization": "Bearer " + token}
 
-        x = requests.get(tournements_url)
+        x = requests.get(tournements_url, headers=headers)
 
-        x.raise_for_status()
-
-        if x.status_code_code == 200:
-            json_response = x.json()
-        else:
-            json_response = "Empty"
+        json_response = x.json()
 
         if request.method == "POST":
 
-            tour_url = "https://simsvendapi-production.up.railway.app/tour/"
+            tour_url = "https://simsvendapi-production.up.railway.app/admin/tour/"
 
             form = TourForm(request.POST)
 
@@ -184,6 +258,7 @@ def tournements(request):
                 name = form.cleaned_data["name"]
                 how_many = form.cleaned_data["how_many"]
                 place_id = form.cleaned_data["place_id"]
+                elo = form.cleaned_data["elo"]
                 gender = form.cleaned_data["gender"]
                 PricePool = form.cleaned_data["PricePool"]
                 Dec = form.cleaned_data["Dec"]
@@ -192,6 +267,7 @@ def tournements(request):
                     "name": name,
                     "how_many": how_many,
                     "place_id": place_id,
+                    "elo": elo,
                     "gender": gender,
                     "Tour": {
                         "PricePool": PricePool,
@@ -200,11 +276,9 @@ def tournements(request):
 
                 }
 
-                x = requests.post(tour_url, json=myobj)
+                x = requests.post(tour_url, json=myobj, headers=headers)
 
                 json_response = x.json()
-
-                print(myobj)
 
                 return HttpResponseRedirect(reverse("tournements"))
 
@@ -212,6 +286,7 @@ def tournements(request):
 
 
             "form": TourForm,
+            "edit_form": TourEditForm,
             "tours": json_response
 
         })
