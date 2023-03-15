@@ -73,9 +73,12 @@ def index(request):
 
         print(request.session.get('token'))
 
-        return render(request, "index.html", {
+        return HttpResponseRedirect(reverse("users"))
 
-        })
+        # return render(request, "index.html", {
+
+        # })
+
 
     else:
 
@@ -315,9 +318,7 @@ def login(request):
         # print(requests.status_code)
         # if not x.status_code:
             # return HttpResponseRedirect(reverse("login"))
-        print("*****************")
-        print(x.status_code)
-        print("*****************")
+
         if not x.status_code == 200:
             return HttpResponseRedirect(reverse("login"))
 
@@ -328,7 +329,7 @@ def login(request):
         session = requests.session()
         request.session['token'] = token
 
-        return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(reverse("users"))
 
     else:
 
